@@ -23,6 +23,12 @@
 	$salt1 = 'haetg7hxi20us1b5mocd3nws07tljep3';
 	$salt2 = 'wf5sd0ak826bs2rv3nbqet0bzhlma3o4';
 
+	function checkEmail( $email )
+	{	
+    	return filter_var( $email, FILTER_VALIDATE_EMAIL );
+	}
+
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -30,7 +36,7 @@
 
 	<link rel="stylesheet" type="text/css" href="/textboard/headers/style.css" />
 	<title>
-		Textboard
+		Textboard - <?php echo $username; ?>
 	</title>
 	<link rel="icon" type="image/png" href="/textboard/files/textboard2.ico">
 

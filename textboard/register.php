@@ -2,11 +2,6 @@
 
 require_once "headers/h1.php";
 
-function checkEmail( $email )
-{
-    return filter_var( $email, FILTER_VALIDATE_EMAIL );
-}
-
 if (isset($_SESSION['username']))
 	header("Location: index.php");
 
@@ -21,16 +16,19 @@ else
 		$reg_email = $_POST['EMAIL'];
 
 	require_once "headers/h2.php";
-	echo "<fieldset style='width:240px;height:450px;margin-top:10px''>
+	echo "<fieldset style='width:220px;height:480px'>
 			<legend><b>Login Registration</b></legend>
-			<form action='' method='POST'>
+		<form action='' method='POST'>
 			<div class='inputform'>
-			Username: <input type='text' name='USERNAME' value='$reg_user' maxlength=12><br>
-			Email Address: <input type='text' name='EMAIL' value='$reg_email' maxlength=40><br>
-			Password: <input type='password' name='PASSWORD1' maxlength=25><br>
-			Confirm Password: &nbsp;&nbsp;<input type='password' name='PASSWORD2' maxlength=25></div><br><br>
-			<span style='margin-left:120px;'><input type='submit' value='Submit'></span>
-			<br><br></form>";
+				Username: <input type='text' name='USERNAME' value='$reg_user' maxlength=12><br>
+				Email Address: <input type='text' name='EMAIL' value='$reg_email' maxlength=40><br><br>
+				Password: <input type='password' name='PASSWORD1' maxlength=25><br>
+				Confirmation: <input type='password' name='PASSWORD2' maxlength=25><br><br>
+				Enter code below: <input type='password' name='CAPTCHA' maxlength=5><br>
+				<img src='scripts/captcha.php' style='margin-left:-7px'><br>
+			</div>
+			<span style='margin-left:130px;'><input type='submit' value='Submit'></span>
+		</form><br>";
 
 	if (isset($_POST['USERNAME']) && !empty($_POST['USERNAME']))
 	{
@@ -38,17 +36,22 @@ else
 		$reg_pass = mysql_real_escape_string($_POST['PASSWORD1']);
 		$reg_pass2 = mysql_real_escape_string($_POST['PASSWORD2']);
 		$reg_email = mysql_real_escape_string($_POST['EMAIL']);
+		$reg_code = strtolower(htmlentities(($_POST['CAPTCHA'])));
+		$check_code = $_SESSION['secure_captcha'];
+		echo "<span style='margin-left:10px;'>";
 
-		if (strlen($reg_user) > 12 || strlen($reg_user) < 4)
-			exit("*Invalid username</fieldset>");
+		if (strlen($reg_user) > 12 || strlen($reg_user) < 3)
+			exit("Invalid username</fieldset>");
 		if (!checkEmail($reg_email))
-			exit("*Invalid email address</fieldset>");
+			exit("Invalid email address</fieldset>");
 		if (strlen($reg_pass) < 4)
-			exit("*Password is too short</fieldset>");
+			exit("Password is too short</fieldset>");
 		if (strlen($reg_pass) > 25)
-			exit("*Password is too long</fieldset>");
+			exit("Password is too long</fieldset>");
 		if ($reg_pass != $reg_pass2)
-			exit("*Passwords do not match</fieldset>");
+			exit("Passwords do not match</fieldset>");
+		if ($reg_code != $check_code)
+			exit("Code does not match</fieldset>");
 
 		if (ctype_alnum($reg_user) && ctype_alnum($reg_pass))
 		{
@@ -57,7 +60,7 @@ else
 			if ($result = mysql_query("SELECT USERNAME FROM userlogin WHERE USERNAME='{$reg_user}'"))
 			{
 				if (mysql_num_rows($result) >= 1)
-					exit("*Username already exists</fieldset>");
+					exit("Username already exists</fieldset>");
 
 				else
 				{
