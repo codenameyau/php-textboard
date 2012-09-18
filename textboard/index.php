@@ -19,7 +19,7 @@ if (!file_exists($editlogfile))
 
 if (isset($_POST['button']) && $username != 'Guest')
 	{
-		if ($_POST['button'] == 'Submit Changes')
+		if ($_POST['button'] == 'update')
 			{
 				$textdata = $_POST['edittext'];
 				$txt1 = fopen($textboardfile, 'w');
@@ -29,6 +29,7 @@ if (isset($_POST['button']) && $username != 'Guest')
 				fwrite($edittxt, "$username$white_spaces@ $date\n");
 				fclose($txt1);
 				fclose($edittxt);
+				header("Location: {$_SERVER['SCRIPT_NAME']}");
 			}
 	}
 
@@ -39,31 +40,31 @@ if ($account_type == 'admin')
 	echo 	"<span style='margin-left:40px'>
 				<a href='session.php'>$username</a>
 			</span>
-			<span style='margin-left:30px''>
+			<span style='margin-left:35px''>
 			<a href='logs.php' target='_blank'>logs</a></span>
-			<span style='margin-left:30px;margin-right:30px''>
-			<a href='database.php' target='_blank'>database</a></span>
+			<span style='margin-left:35px;margin-right:30px''>
+			<a href='database.php'>database</a></span>
 			<form action='' method='POST' style='display: inline;'>
-			<input type='submit' name='button' value='Submit Changes'>
-			<textarea rows='30' name='edittext'>$filecontents</textarea>
+			<input type='submit' class='button' name='button' value='update'>
+			<textarea rows='30' name='edittext' spellcheck='false'>$filecontents</textarea>
 			</form>";
 
 else if ($account_type == 'mod')
 	echo 	"<span style='margin-left:40px'>
 				<a href='session.php'>$username</a></span>
-			<span style='margin-left:30px;margin-right:30px''>
+			<span style='margin-left:35px;margin-right:30px''>
 			<a href='logs.php' target='_blank'>logs</a></span>
 			<form action='' method='POST' style='display: inline;'>
-			<input type='submit' name='button' value='Submit Changes'>
-			<textarea rows='30' name='edittext'>$filecontents</textarea>
+			<input type='submit' class='button' name='button' value='update'>
+			<textarea rows='30' name='edittext' spellcheck='false'>$filecontents</textarea>
 			</form>";
 
 else if ($account_type == 'user')
 	echo 	"<span style='margin-left:40px;margin-right:30px'>
 			<a href='session.php'>$username</a></span>
 			<form action='' method='POST' style='display: inline;'>
-			<input type='submit' name='button' value='Submit Changes'>
-			<textarea rows='30' name='edittext'>$filecontents</textarea>
+			<input type='submit' class='button' name='button' value='update'>
+			<textarea rows='30' name='edittext' spellcheck='false'>$filecontents</textarea>
 			</form>";
 
 else
