@@ -11,12 +11,21 @@
 	// User information
 	$username = 'Guest';
 	$account_type = 'guest';
+	
+	// Textboard Information
+	$current_board = 0;
+	$board_id = 0;
+	$user_dir = '';
+	$user_board = '';
+
+	$readonly = '';
 
 	// Authenticate user session
 	if (isset($_SESSION['username']) && isset($_SESSION['account']))
 	{	
 		$username = $_SESSION['username'];
 		$account_type = $_SESSION['account'];
+		$board_id   = $_SESSION['board_id'];
 	}
 
 	// Password hashing salts
@@ -27,7 +36,6 @@
 	{	
     	return filter_var( $email, FILTER_VALIDATE_EMAIL );
 	}
-
 
 ?>
 <!DOCTYPE HTML>

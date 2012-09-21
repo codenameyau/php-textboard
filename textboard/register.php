@@ -53,7 +53,7 @@ else
 		if ($reg_code != $check_code)
 			exit("Code does not match</fieldset>");
 
-		if (ctype_alnum($reg_user) && ctype_alnum($reg_pass))
+		if (ctype_alnum($reg_user))
 		{
 			connect_database();
 
@@ -64,10 +64,26 @@ else
 
 				else
 				{
+					$boardhash = "58290f405e3f221df197a71f58450192";
+					while (true)
+					{
+						$textboard_id = str_shuffle(substr(sha1($reg_user.$boardhash), 0, 20));
+						$board_id = substr($textboard_id, 6, 20);
+						if (!is_dir("boards/$board_id"))
+							break;
+					}
+					
+					$userboard_id = substr($textboard_id, 0, 5);
+					mkdir("boards/$board_id");
+					mkdir("boards/$board_id/logs");
+					$user_board = fopen("boards/$board_id/$userboard_id.txt", 'w');
+					fwrite($user_board, "Welcome, $reg_user! This is your textboard. Enjoy!");
+					fclose($user_board);
+
 					$hashpass = crypt($reg_pass, sha1($salt1.$reg_pass.$salt2));
 					
 					$insert = "INSERT INTO `phplearn`.`userlogin` 
-						VALUES (NULL, '{$reg_user}', '{$hashpass}', 'user', '{$reg_email}', CURRENT_TIMESTAMP)";
+						VALUES (NULL, '{$reg_user}', '{$hashpass}', 'user', '{$reg_email}', '{$textboard_id}',CURRENT_TIMESTAMP)";
 					
 					if (mysql_query($insert) or exit(mysql_error()))
 						header("Location: session.php");

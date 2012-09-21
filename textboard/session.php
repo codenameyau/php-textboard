@@ -41,7 +41,7 @@ else
 					{
 						require_once 'headers/h2.php';
 						connect_database();
-						$user_query = mysql_query("SELECT USERNAME, PASSWORD, ACCOUNT FROM userlogin WHERE USERNAME='{$username}'");
+						$user_query = mysql_query("SELECT USERNAME, PASSWORD, ACCOUNT, BOARD FROM userlogin WHERE USERNAME='{$username}'");
 
 						if (mysql_num_rows($user_query) == 1)
 						{
@@ -50,11 +50,13 @@ else
 							$query_data = mysql_fetch_assoc($user_query);
 							$query_password =  $query_data['PASSWORD'];
 							$account_type = $query_data['ACCOUNT'];
+							$user_board = $query_data['BOARD'];
 
 							if ($password == $query_password)
 								{
 									$_SESSION['username'] = $username;
 									$_SESSION['account'] = $account_type;
+									$_SESSION['board_id'] = $user_board;
 									header("Location: index.php");
 								}
 
