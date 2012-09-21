@@ -38,6 +38,11 @@ textarea
     border-radius: 8px;
 }
 
+select
+{
+	margin-right: 20px;
+}
+
 legend
 {	
 	color: #F4F4F3;
@@ -48,6 +53,7 @@ fieldset
 {
 	background-color: #293034;
 	margin-top:15px;
+	padding-left: 20px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -92,5 +98,10 @@ fieldset
 
 	.spacing
 	{
-		word-spacing: 100px;
+		word-spacing: 30px;
+	}
+
+	.menu
+	{
+		word-spacing: 40px;
 	}
