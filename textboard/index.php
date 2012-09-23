@@ -2,10 +2,13 @@
 require_once "headers/h1.php";
 
 // Public Board
-if ($current_board == 0)
+if ($current_board == '0')
 {
 	$textboardfile = 'files/textboards/public.txt';
 	$editlogfile = 'files/textboard_logs/editlog'.$monthyear.'.txt';
+	$select_0 = 'selected';
+	$select_1 = '';
+	$select_2 = '';
 
 	if ($account_type != 'admin' && $account_type != 'user')
 		$readonly = 'readonly';
@@ -28,10 +31,13 @@ if ($current_board == 0)
 }
 
 // Announcements Board
-else if ($current_board == 1)
+else if ($current_board == '1')
 {
 	$textboardfile = 'files/textboards/announcements.txt';
 	$editlogfile = 'files/announce_logs/editlog'.$monthyear.'.txt';
+	$select_0 = '';
+	$select_1 = 'selected';
+	$select_2 = '';
 
 	if ($account_type != 'admin')
 		$readonly = 'readonly';
@@ -56,17 +62,19 @@ else if ($current_board == 1)
 // Userboard
 else
 {
-	// if GET url_supplied
+	$select_0 = '';
+	$select_1 = '';
+	$select_2 = 'selected';
 
+	$use_board_id = $board_id;
 
-	// if no Get url
-	$user_dir   = substr($board_id, 6, 20);
-	$user_board = substr($board_id, 0, 5);
+	$user_dir   = substr($use_board_id, 6, 20);
+	$user_board = substr($use_board_id, 0, 5);
 
 	$textboardfile = "boards/$user_dir/$user_board.txt";
 	$editlogfile = "boards/$user_dir/logs/editlog'.$monthyear.'.txt";
 
-	if ($account_type != 'admin' || $account_type != 'user')
+	if ($account_type != 'admin' && $account_type != 'user')
 		$readonly = 'readonly';
 
 	// Create textboard and log files
@@ -83,21 +91,34 @@ else
 		}
 }
 
-
 if (isset($_POST['button']) && $username != 'Guest')
 	{
-		if ($_POST['button'] == 'update')
-			{
-				$textdata = $_POST['edittext'];
-				$txt1 = fopen($textboardfile, 'w');
-				$edittxt = fopen($editlogfile, 'a');
-				fwrite($txt1, $textdata);
-				$white_spaces = str_repeat(' ', 14-strlen($username));
-				fwrite($edittxt, "$username$white_spaces@ $date\n");
-				fclose($txt1);
-				fclose($edittxt);
-				header("Location: {$_SERVER['SCRIPT_NAME']}");
-			}
+		if ($_POST['select_board'] != $current_board)
+		{
+			$select_board = $_POST['select_board'];
+			$_SESSION['current_board'] = $select_board;
+			header("Location: {$_SERVER['SCRIPT_NAME']}");
+		}
+
+		if ($_POST['button'] == 'update' && $readonly == '')
+		{
+			$textdata = $_POST['edittext'];
+
+			// Open Files
+			$txt1 = fopen($textboardfile, 'w');
+			$edittxt = fopen($editlogfile, 'a');
+			
+			fwrite($txt1, $textdata);
+			
+			$white_spaces = str_repeat(' ', 14-strlen($username));
+			fwrite($edittxt, "$username$white_spaces@ $date\n");
+			
+			// Close files
+			fclose($txt1);
+			fclose($edittxt);
+			
+			header("Location: {$_SERVER['SCRIPT_NAME']}");
+		}
 	}
 
 $txtfile = fopen($textboardfile, 'r');
@@ -108,13 +129,13 @@ if ($account_type == 'admin')
 				<a href='session.php'>$username</a>
 				<a href='logs.php' target='_blank'>logs</a>
 				<a href='database.php'>database</a>
-			<form action='' method='POST' style='display: inline;'>
-			<select name='select_board'>
-				<option value='public'>public</option>
-				<option value='announcements'>announcements</option>
-				<option value='user'>$username</option>
-			</select>
-			<input type='submit' class='button' name='button' value='update'>
+				<form action='' method='POST' style='display: inline;'>
+				<select name='select_board'>
+					<option value='0' $select_0>public</option>
+					<option value='1' $select_1>announcements</option>
+					<option value='$username' $select_2>$username</option>
+				</select>
+				<input type='submit' class='button' name='button' value='update'>
 			</span>
 			<textarea rows='30' name='edittext' spellcheck='false' $readonly>$filecontents</textarea>
 			</form>";
@@ -124,9 +145,9 @@ else if ($account_type == 'user')
 				<a href='session.php'>$username</a>
 				<form action='' method='POST' style='display: inline;'>
 				<select name='select_board'>
-					<option value='public'>public</option>
-					<option value='announcements'>announcements</option>
-					<option value='user'>$username</option>
+					<option value='0' $select_0>public</option>
+					<option value='1' $select_1>announcements</option>
+					<option value='$username' $select_2>$username</option>
 				</select>
 				<input type='submit' class='button' name='button' value='update'>
 			</span>

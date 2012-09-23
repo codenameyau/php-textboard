@@ -21,21 +21,21 @@ a
 textarea 
 {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;         /* Opera/IE 8+ */
+	-moz-box-sizing: border-box;	/* Firefox, other Gecko */
+	box-sizing: border-box;		 /* Opera/IE 8+ */
 	background-color: #F4F4F3;
 	border-style: solid;
  	border-width: 4px;
 	border-color: #B99B43;
-	margin-top: 10px;
+	margin-top: 12px;
 	padding: 10px;
  	width: 100%;
  	color: #020202;
  	font-size: 15px;
  	letter-spacing: 1px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
 }
 
 select
@@ -54,9 +54,9 @@ fieldset
 	background-color: #293034;
 	margin-top:15px;
 	padding-left: 20px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
 }
 
 	.button
@@ -76,14 +76,14 @@ fieldset
 	.inputform 
 	{
 		margin: 10px;
-	    width: 180px;
-	    clear: both;
-	    margin-top: 10px;
+		width: 180px;
+		clear: both;
+		margin-top: 10px;
 	}
 
 	.inputform input 
 	{
-	    width: 100%;
+		width: 100%;
 		clear: both;
 	 	letter-spacing: 1px;
 	}
