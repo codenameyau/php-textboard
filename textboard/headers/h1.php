@@ -13,7 +13,7 @@
 	$account_type = 'guest';
 	
 	// Textboard Information
-	$current_board = 0;
+	$current_board = '0';
 	$board_id = 0;
 	$user_dir = '';
 	$user_board = '';
@@ -22,7 +22,8 @@
 
 	// Authenticate user session
 	if (isset($_SESSION['username']) && isset($_SESSION['account']))
-	{	
+	{
+		$current_board = $_SESSION['current_board'];
 		$username = $_SESSION['username'];
 		$account_type = $_SESSION['account'];
 		$board_id   = $_SESSION['board_id'];
@@ -42,6 +43,7 @@
 <html>
 <head>
 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="/textboard/headers/style.css" />
 	<title>
 		Textboard - <?php echo $username; ?>

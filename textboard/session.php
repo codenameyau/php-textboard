@@ -57,6 +57,7 @@ else
 									$_SESSION['username'] = $username;
 									$_SESSION['account'] = $account_type;
 									$_SESSION['board_id'] = $user_board;
+									$_SESSION['current_board'] = '0';
 									header("Location: index.php");
 								}
 
