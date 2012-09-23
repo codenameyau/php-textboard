@@ -5,7 +5,7 @@ require_once "headers/h1.php";
 if ($current_board == '0')
 {
 	$textboardfile = 'files/textboards/public.txt';
-	$editlogfile = 'files/textboard_logs/editlog'.$monthyear.'.txt';
+	$editlogfile = "files/textboard_logs/log$monthyear.txt";
 	$select_0 = 'selected';
 	$select_1 = '';
 	$select_2 = '';
@@ -34,7 +34,7 @@ if ($current_board == '0')
 else if ($current_board == '1')
 {
 	$textboardfile = 'files/textboards/announcements.txt';
-	$editlogfile = 'files/announce_logs/editlog'.$monthyear.'.txt';
+	$editlogfile = "files/announce_logs/log$monthyear.txt";
 	$select_0 = '';
 	$select_1 = 'selected';
 	$select_2 = '';
@@ -67,27 +67,18 @@ else
 	$select_2 = 'selected';
 
 	$use_board_id = $board_id;
-
 	$user_dir   = substr($use_board_id, 6, 20);
 	$user_board = substr($use_board_id, 0, 5);
 
 	$textboardfile = "boards/$user_dir/$user_board.txt";
-	$editlogfile = "boards/$user_dir/logs/editlog'.$monthyear.'.txt";
 
 	if ($account_type != 'admin' && $account_type != 'user')
 		$readonly = 'readonly';
 
-	// Create textboard and log files
 	if (!file_exists($textboardfile))
 		{
 			$txt1 = fopen($textboardfile, 'a');
 			fclose($txt1);
-		}
-
-	if (!file_exists($editlogfile))
-		{
-			$edittxt = fopen($editlogfile, 'a');
-			fclose($edittxt);
 		}
 }
 
@@ -108,7 +99,7 @@ if (isset($_POST['button']) && $username != 'Guest')
 			$txt1 = fopen($textboardfile, 'w');
 			$edittxt = fopen($editlogfile, 'a');
 			
-			fwrite($txt1, $textdata);
+			fwrite($txt1, $textdata, $filesizelimit);
 			
 			$white_spaces = str_repeat(' ', 14-strlen($username));
 			fwrite($edittxt, "$username$white_spaces@ $date\n");
@@ -121,8 +112,7 @@ if (isset($_POST['button']) && $username != 'Guest')
 		}
 	}
 
-$txtfile = fopen($textboardfile, 'r');
-$filecontents = fread($txtfile, filesize($textboardfile)+1);
+$filecontents = file_get_contents($textboardfile);
 
 if ($account_type == 'admin')
 	echo 	"<span class='menu'>

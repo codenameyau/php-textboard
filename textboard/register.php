@@ -75,7 +75,6 @@ else
 					
 					$userboard_id = substr($textboard_id, 0, 5);
 					mkdir("boards/$board_id");
-					mkdir("boards/$board_id/logs");
 					$user_board = fopen("boards/$board_id/$userboard_id.txt", 'w');
 					fwrite($user_board, "Welcome, $reg_user! This is your textboard. Enjoy!");
 					fclose($user_board);

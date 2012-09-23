@@ -17,8 +17,8 @@
 	$board_id = 0;
 	$user_dir = '';
 	$user_board = '';
-
 	$readonly = '';
+	$filesizelimit = 2097152;
 
 	// Authenticate user session
 	if (isset($_SESSION['username']) && isset($_SESSION['account']))
@@ -43,7 +43,7 @@
 <html>
 <head>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="/textboard/headers/style.css" />
 	<title>
 		Textboard - <?php echo $username; ?>
