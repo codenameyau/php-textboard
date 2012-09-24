@@ -5,7 +5,8 @@ require_once "headers/h1.php";
 if ($current_board == '0')
 {
 	$textboardfile = 'files/textboards/public.txt';
-	$editlogfile = "files/textboard_logs/log$monthyear.txt";
+	$editlogfile = $public_log_dir.$monthyear.'.txt';
+
 	$select_0 = 'selected';
 	$select_1 = '';
 	$select_2 = '';
@@ -13,15 +14,9 @@ if ($current_board == '0')
 	if ($account_type != 'admin' && $account_type != 'user')
 		$readonly = 'readonly';
 
-	if (!is_dir('files/textboard_logs'))
-		mkdir('files/textboard_logs');
-
 	// Create textboard and log files
-	if (!file_exists($textboardfile))
-		{
-			$txt1 = fopen($textboardfile, 'a');
-			fclose($txt1);
-		}
+	if (!is_dir($public_log_dir))
+		mkdir($public_log_dir);
 
 	if (!file_exists($editlogfile))
 		{
@@ -34,7 +29,8 @@ if ($current_board == '0')
 else if ($current_board == '1')
 {
 	$textboardfile = 'files/textboards/announcements.txt';
-	$editlogfile = "files/announce_logs/log$monthyear.txt";
+	$editlogfile = $announce_log_dir.$monthyear.'.txt';
+
 	$select_0 = '';
 	$select_1 = 'selected';
 	$select_2 = '';
@@ -42,15 +38,8 @@ else if ($current_board == '1')
 	if ($account_type != 'admin')
 		$readonly = 'readonly';
 
-	// Create textboard and log files
-	if (!is_dir('files/announce_logs'))
-		mkdir('files/announce_logs');
-
-	if (!file_exists($textboardfile))
-		{
-			$txt1 = fopen($textboardfile, 'a');
-			fclose($txt1);
-		}
+	if (!is_dir($announce_log_dir))
+		mkdir($announce_log_dir);
 
 	if (!file_exists($editlogfile))
 		{
@@ -66,22 +55,26 @@ else
 	$select_1 = '';
 	$select_2 = 'selected';
 
-	$use_board_id = $board_id;
-	$user_dir   = substr($use_board_id, 6, 20);
-	$user_board = substr($use_board_id, 0, 5);
+	$user_dir   = substr($board_id, 6, 20);
+	$user_board = substr($board_id, 0, 5);
+
+	if (!is_dir("boards/$user_dir"))
+		mkdir("boards/$user_dir");
 
 	$textboardfile = "boards/$user_dir/$user_board.txt";
 
 	if ($account_type != 'admin' && $account_type != 'user')
 		$readonly = 'readonly';
-
-	if (!file_exists($textboardfile))
-		{
-			$txt1 = fopen($textboardfile, 'a');
-			fclose($txt1);
-		}
 }
 
+// Create textboard file if somehow deleted
+if (!file_exists($textboardfile))
+{
+	$txt1 = fopen($textboardfile, 'a');
+	fclose($txt1);
+}
+
+// Event Handlers for update button
 if (isset($_POST['button']) && $username != 'Guest')
 	{
 		if ($_POST['select_board'] != $current_board)
@@ -91,33 +84,33 @@ if (isset($_POST['button']) && $username != 'Guest')
 			header("Location: {$_SERVER['SCRIPT_NAME']}");
 		}
 
-		if ($_POST['button'] == 'update' && $readonly == '')
+		else if ($_POST['button'] == 'update' && $readonly == '')
 		{
-			$textdata = $_POST['edittext'];
+			$textdata = gzcompress($_POST['edittext'], 3);
 
-			// Open Files
+			// Saving to files
 			$txt1 = fopen($textboardfile, 'w');
-			$edittxt = fopen($editlogfile, 'a');
-			
 			fwrite($txt1, $textdata, $filesizelimit);
-			
-			$white_spaces = str_repeat(' ', 14-strlen($username));
-			fwrite($edittxt, "$username$white_spaces@ $date\n");
-			
-			// Close files
 			fclose($txt1);
-			fclose($edittxt);
+
+			if ($current_board == '0' || $current_board == '1')
+			{
+				$edittxt = fopen($editlogfile, 'a');
+				$white_spaces = str_repeat(' ', 14-strlen($username));
+				fwrite($edittxt, gzcompress("$username$white_spaces@ $date\n", 3));
+				fclose($edittxt);
+			}
 			
 			header("Location: {$_SERVER['SCRIPT_NAME']}");
 		}
 	}
 
-$filecontents = file_get_contents($textboardfile);
+$filecontents = gzuncompress(file_get_contents($textboardfile));
 
 if ($account_type == 'admin')
 	echo 	"<span class='menu'>
 				<a href='session.php'>$username</a>
-				<a href='logs.php' target='_blank'>logs</a>
+				<a href='logs.php'>logs</a>
 				<a href='database.php'>database</a>
 				<form action='' method='POST' style='display: inline;'>
 				<select name='select_board'>

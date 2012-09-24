@@ -76,7 +76,7 @@ else
 					$userboard_id = substr($textboard_id, 0, 5);
 					mkdir("boards/$board_id");
 					$user_board = fopen("boards/$board_id/$userboard_id.txt", 'w');
-					fwrite($user_board, "Welcome, $reg_user! This is your textboard. Enjoy!");
+					fwrite($user_board, gzcompress("Welcome, $reg_user! This is your private textboard. Enjoy!", 3));
 					fclose($user_board);
 
 					$hashpass = crypt($reg_pass, sha1($salt1.$reg_pass.$salt2));
