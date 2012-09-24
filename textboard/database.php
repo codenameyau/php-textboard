@@ -15,7 +15,7 @@ if ($account_type == 'admin')
 	{
 		$user = mysql_real_escape_string($_POST['USERNAME']);
 		if (strlen($user) > 12)
-			exit("<span style='color:red;margin:5px'>USERNAME: '$user' not found</span>");
+			exit("<span style='margin:5px'>USERNAME: '$user' not found</span>");
 		
 		connect_database();
 
