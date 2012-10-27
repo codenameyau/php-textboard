@@ -3,10 +3,19 @@ body
 	background-color: #303840;
 	margin-left: 7%;
 	margin-right: 7%;
-	margin-top: 3%;
+	margin-top: 2%;
 	color: #F4F4F3;
 	letter-spacing: 1px;
 	font-family: Sans-serif;
+}
+
+#wrapper
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 1010px;
+	height: auto;
+	padding: 5px;
 }
 
 a 
@@ -32,6 +41,7 @@ textarea
  	width: 100%;
  	color: #020202;
  	font-size: 15px;
+ 	font-family: monospace;
  	letter-spacing: 1px;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
@@ -48,7 +58,7 @@ select
 	border:1px solid #B99B43;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	border-radius: 5px 5px; 
+	border-radius: 2px; 
 	line-height: 11px; 
 	letter-spacing: 1px;
 }

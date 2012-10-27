@@ -34,10 +34,6 @@
 		$board_id   = $_SESSION['board_id'];
 	}
 
-	// Password hashing salts
-	$salt1 = 'haetg7hxi20us1b5mocd3nws07tljep3';
-	$salt2 = 'wf5sd0ak826bs2rv3nbqet0bzhlma3o4';
-
 	function checkEmail( $email )
 	{	
     	return filter_var( $email, FILTER_VALIDATE_EMAIL );
@@ -57,5 +53,5 @@
 
 </head>
 
-<body>
+<body id="wrapper">
 <a class="logo" href="index.php">_Textboard_</a>

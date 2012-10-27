@@ -46,11 +46,11 @@ else
 						if (mysql_num_rows($user_query) == 1)
 						{
 							$storedpass = htmlentities($_POST['password']);
-							$password = crypt($storedpass, sha1($salt1.$storedpass.$salt2));
 							$query_data = mysql_fetch_assoc($user_query);
 							$query_password =  $query_data['PASSWORD'];
 							$account_type = $query_data['ACCOUNT'];
 							$user_board = $query_data['BOARD'];
+							$password = crypt($storedpass, $query_password);
 
 							if ($password == $query_password)
 								{

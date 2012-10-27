@@ -9,6 +9,7 @@ if ($account_type == 'admin')
 		$selected_date = $_POST['log_date'];
 		$_SESSION['view_log'] = $selected_date;
 
+		// Script redirect to log file 
 		if ($_POST['textboard_log'] == '00')
 			header("Location: scripts/log_00.php");
 

@@ -79,11 +79,14 @@ else
 					fwrite($user_board, gzcompress("Welcome, $reg_user! This is your private textboard. Enjoy!", 3));
 					fclose($user_board);
 
-					$hashpass = crypt($reg_pass, sha1($salt1.$reg_pass.$salt2));
-					
+					$hashpass = crypt($reg_pass);
 					$insert = "INSERT INTO `phplearn`.`userlogin` 
 						VALUES (NULL, '{$reg_user}', '{$hashpass}', 'user', '{$reg_email}', '{$textboard_id}',CURRENT_TIMESTAMP)";
 					
+					// Create Bank Account
+					$insert_bank = "INSERT INTO bankaccount (ID, USERNAME, BALANCE) VALUES (NULL, '{$reg_user}', '10')";
+
+					mysql_query($insert_bank);
 					if (mysql_query($insert) or exit(mysql_error()))
 						header("Location: session.php");
 				}
