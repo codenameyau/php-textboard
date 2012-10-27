@@ -1,7 +1,0 @@
-Hello World! How are you today?
-
-9-17 Good css. First post by first. Yes indeed.
-9-18 Turned off spell check, actually.
-
-Future Plans:
-Make individual boards (admin write-only, mod/admin write-only boards)

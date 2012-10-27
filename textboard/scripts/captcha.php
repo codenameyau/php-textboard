@@ -9,17 +9,20 @@ $_SESSION['secure_captcha'] = strtolower($match);
 
 $start_x = rand(5, 10);
 
+// Select captcha font
 $text_font = "fonts/captcha1.ttf";
+
 $text_size = 35;
 $image_width = $text_size * strlen($match) + 20 + $start_x;
 $image_height = 80;
 
 $captcha = imagecreate($image_width, $image_height);
 
+// Fill in background color
 imagecolorallocate($captcha, 41, 48, 52);
 $text_color = imagecolorallocate($captcha, 0, 0, 0);
 
-// Draw random line slashes
+// Draw random line slashes. start=(x1, y1) end=(x2,y2)
 for ($n=0; $n<35; $n++)
 {
 	$x1 = rand(1, $image_width);

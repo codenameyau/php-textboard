@@ -53,7 +53,7 @@ if ($account_type == 'guest')
 
 			$chars = "ABCDEFGHIJKMNPQRSTUVWXYZaabbccddeeffghijkmnpqrstuvwxyz";
 			$new_pass = substr(str_shuffle($chars), 0, 7);
-			$hash_pass = crypt($new_pass, sha1($salt1.$new_pass.$salt2));
+			$hash_pass = crypt($new_pass);
 
  			$subject = "Textboard Password Reset";
  			$body = "Hello, you've requested a password reset from Textboard.\n

@@ -77,6 +77,7 @@ if (!file_exists($textboardfile))
 // Event Handlers for update button
 if (isset($_POST['button']) && $username != 'Guest')
 	{
+		// Change board
 		if ($_POST['select_board'] != $current_board)
 		{
 			$select_board = $_POST['select_board'];
@@ -84,6 +85,7 @@ if (isset($_POST['button']) && $username != 'Guest')
 			header("Location: {$_SERVER['SCRIPT_NAME']}");
 		}
 
+		// Update textboard file
 		else if ($_POST['button'] == 'update' && $readonly == '')
 		{
 			$textdata = gzcompress($_POST['edittext'], 3);
@@ -97,7 +99,7 @@ if (isset($_POST['button']) && $username != 'Guest')
 			{
 				$edittxt = fopen($editlogfile, 'a');
 				$white_spaces = str_repeat(' ', 14-strlen($username));
-				fwrite($edittxt, gzcompress("$username$white_spaces@ $date\n", 3));
+				fwrite($edittxt, "$username$white_spaces@ $date\n");
 				fclose($edittxt);
 			}
 			
@@ -143,8 +145,5 @@ else
 			</span>
 			<textarea rows='30' spellcheck='false' $readonly>$filecontents</textarea>";
 
-?>
-<br>
-<?php
 require_once "headers/hend.php";
 ?>
